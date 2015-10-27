@@ -34,65 +34,57 @@ public class BerlinClockFixture {
 
     MyTimeConverter TimeConverter = new MyTimeConverter();
 
-    @Test
+    protected String yellowCircle;
+    protected String topHoursString;
+    protected String lowerHoursString;
+    protected String topMinutesString;
+    protected String lowerMinutesString;
+
+
+    // Parse result of MyTimeConverter to Seconds flag, Minutes, Hours...
     @Given("^Current time is '([^']+)'$")
     public void current_time_is(String time) throws IllegalArgumentException{
     if ((time.length()!= 8)) throw new IllegalArgumentException("Time is incorrect. Please, set correct time according to mask HH:mm:ss. Thank you!");
-    TimeConverter.convertTime(time);
-    }
+       yellowCircle = String.valueOf(time.charAt(0));
+       topHoursString = new String(new char[] {time.charAt(1),time.charAt(2),time.charAt(3),time.charAt(4)});
+       lowerHoursString = new String(new char[] {time.charAt(5),time.charAt(6),time.charAt(7),time.charAt(8)});
+       for (int  i= 9; i<20;i++){
+           topMinutesString += String.valueOf(time.charAt(i));
+       }
+       lowerMinutesString = new String(new char[] {time.charAt(20),time.charAt(21),time.charAt(22),time.charAt(23)});
 
+    }
 
     @When("^On the top of the clock there is a yellow lamp that is '([^']+)'$")
     public void yellow_lamp_condition(String on_off) throws IllegalArgumentException {
-        if ((on_off!="On")||(on_off!="Off")) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of yellow lamp (On/Off). Thank you!");
-        Assert.assertTrue("The expected Flag of Yellow Lamp is \"On\", but actually was: " + TimeConverter.getYellowLampflag(),"On"==TimeConverter.getYellowLampflag());
+        if ((on_off!="O")||(on_off!="Y")) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of yellow lamp (O/Y). Thank you!");
+          Assert.assertTrue("The expected Flag of Yellow Lamp is  " + on_off + " , but actually was: " + yellowCircle,yellowCircle.equals(on_off));
     }
 
     @Then("^The top row of red lamps has values '([^']+)'$")
      public void top_row_of_Hrs (String topHrs) throws IllegalArgumentException {
         if (topHrs.length()!=4) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of top row of red lamps 4 symbols 'R' or 'O'. Thank you!");
-        Assert.assertTrue("The expected Value of The top row of red lamps is \"OOOO\", but actually was: " + TimeConverter.getTopRowOfHrs(),"OOOO"==TimeConverter.getTopRowOfHrs());
+        Assert.assertTrue("The expected Value of The top row of red lamps (hours) is " +topHoursString + " , but actually was: " + topHrs, topHrs.equals(topHoursString));
 
     }
-
 
     @Then("^lower row of red lamps has values '([^']+)'$")
     public void low_row_of_Hrs (String lowerHrs) throws IllegalArgumentException {
         if (lowerHrs.length()!=4) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of lower row of red lamps (Hrs) 4 symbols 'R' or 'O'. Thank you!");
-        Assert.assertTrue("The expected Value of The lower row of red lamps is \"OOOO\", but actually was: " + TimeConverter.getLowerRowOfHrs(),"OOOO"==TimeConverter.getLowerRowOfHrs());
+        Assert.assertTrue("The expected Value of The lower row of red lamps (hours) is" + lowerHoursString +" , but actually was: " + lowerHrs, lowerHrs.equals(lowerHoursString));
     }
 
     @Then("^The two rows of lamps at the bottom count the minutes. The first of these rows has 11 lamps and values '([^']+)'$")
     public void top_row_of_minutes (String topMinutes) throws IllegalArgumentException {
         if (topMinutes.length()!=11) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of top row of yellow/red lamps 11 symbols 'Y','R' or 'O'. Thank you!");
-        Assert.assertTrue("The expected Value of The lower row of red lamps is \"OOOO\", but actually was: " + TimeConverter.getTopRowOfMinutes(),"OOOOOOOOOOO"==TimeConverter.getTopRowOfMinutes());
+        Assert.assertTrue("The expected Value of The top row of red lamps (minutes) is "+topMinutesString + ", but actually was: " + topMinutes, topMinutes.equals(topMinutesString));
     }
 
     @Then("^In the last row with 4 lamps has values '([^']+)'$")
     public void low_row_of_minutes (String lowerMinutes) throws IllegalArgumentException {
         if (lowerMinutes.length()!=4) throw new IllegalArgumentException("Condition is incorrect. Please, set correct condition of lower row of red lamps (Minutes) 4 symbols 'R' or 'O'. Thank you!");
-        Assert.assertTrue("The expected Value of The lower row of red lamps is \"OOOO\", but actually was: " + TimeConverter.getLowerRowOfMinutes(),"OOOO"==TimeConverter.getLowerRowOfMinutes());
+        Assert.assertTrue("The expected Value of The lower row of red lamps (minutes) is " + lowerMinutesString + " , but actually was: " + lowerMinutes, lowerMinutes.equals(lowerHoursString));
     }
 
-    /*public class DepositStepDefinitions {
-        private Account account;
 
-        @Given("^a User has no money in their account$")
-        public void a_User_has_no_money_in_their_current_account() throws CucumberException @Given("^a User has no money in their account$")
-        public void a_User_has_no_money_in_their_current_account() throws CucumberException
-        {
-            User user = new User();
-            account = new Account();
-            user.setAccount(account);
-            assertTrue("The balance is not zero.", account.getBalance() == 0L);
-            //throw new CucumberException("Cucumber failed...");
-        }
-
-        @When("^£(\\d+) is deposited in to the account$")
-        public void £_is_deposited_in_to_the_account(int amount) {
-            account.deposit(amount);
-        }
-        */
-
-    //TODO
 }

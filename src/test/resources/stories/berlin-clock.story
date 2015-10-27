@@ -32,7 +32,7 @@ OOOO
 Acceptance Test Cases:
 Scenario: 00:00:00 Time Berlin clock representation
 When Current time is 00:00:00
-Then On the top of the clock there is a yellow lamp that is On
+Then On the top of the clock there is a yellow lamp that is O
 Then The top row of red lamps has values OOOO
 Then lower row of red lamps has values OOOO
 Then The two rows of lamps at the bottom count the minutes. The first of these rows has 11 lamps and values OOOOOOOOOOO
