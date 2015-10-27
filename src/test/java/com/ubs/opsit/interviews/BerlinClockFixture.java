@@ -21,6 +21,7 @@ public class BerlinClockFixture {
                 .run();
     }
     /*
+
     Scenario: 00:00:00 Time Berlin clock representation
 
     Given Current time is 00:00:00
